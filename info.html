@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link title="timeline-styles" rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/index.css">
+
+    <title>Info</title>
+  </head>
+  <body style="background-color:white;">
+    
+    <!-- Nav -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom: 0.5px solid white;">
+    <a class="navbar-brand" href="#"><img src="images/logo_white.png" height="30" width="auto" class="d-inline-block align-top"></a>
+    <form id="form" action="info.html" method="GET" class="form-inline my-2 my-lg-0">
+            <input id="search" type="url" name="url" class="form-control mr-sm-2" placeholder="https://github.com/tensorflow/tensorflow" >
+            <input id="search-button" class="btn btn-outline-success my-2 my-sm-0" type="submit">
+    </form>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbarSupportedContent" aria-controls="topNavbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse align-items-end" id="topNavbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active ml-auto">
+          <button type="button" class="btn btn-outline-light" data-href="index.html" onclick="window.location.href='index.html'">Home</button>
+        </li>
+      </ul>
+    </div></nav>
+
+    <!-- Information Headers -->
+    <div class="infoContainers" style="border: hidden;">
+        <div class="row">
+            <div class="col-8" style="padding: 0px;">
+                <div class="mainInfo" style="height: 100%;">
+                    <table class="table">
+                          <thead>
+                                <tr style="border: hidden;">
+                                    <th scope="col" class="mainInfoTitles" id="repoName" style="font-size: 420%; text-decoration: underline; font-weight: 600;">N/A</th>
+                                </tr>
+                          </thead>
+                    </table>
+                </div>  
+            </div>
+            <div class="col-4" style="padding: 0px; padding-left: 4px;">
+                <div style="border: 1px solid #e5e6e6;">
+                    <table class="table">
+                          <thead>
+                            <tr style="border: hidden;">
+                              <th scope="col" class="mainInfoTitles">Created</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td id="dateCreated" class="mainInfoText">N/A</td>
+                            </tr>
+                          </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Information -->
+    <div class="infoContainers" style="border: hidden;">
+        <div class="row">
+             <!-- Number of Issues -->
+            <div class="col-3" style="padding: 0px;">
+                <div class="mainInfo" style="height: 100%;">
+                    <table class="table">
+                      <thead>
+                        <tr style="border: hidden;">
+                          <th scope="col" class="mainInfoTitles">Number of Open Issues</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td id="numIssues" class="mainInfoText">N/A</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+             <!-- Number of Commits -->
+            <div class="col-3" style="padding: 0px;">
+                <div class="mainInfo" style="height: 100%;">
+                <table class="table">
+                  <thead>
+                    <tr style="border: hidden;">
+                      <th scope="col" class="mainInfoTitles">Number of Commits<br>(Past Week)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td id="numCommits" class="mainInfoText">N/A</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+            </div>
+             <!-- Most Recent Commit -->
+            <div class="col-3" style="padding: 0px;">
+                <div class="mainInfo" style="height: 100%;">
+                <table class="table">
+                  <thead>
+                    <tr style="border: hidden;">
+                      <th scope="col" class="mainInfoTitles">Most Recent Commit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td id="mostRecentCommits" class="mainInfoText">N/A</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+            </div>
+             <!-- Average Time to Resolve Issues -->
+            <div class="col-3" style="padding: 0px;">
+                <div class="mainInfo" style="height: 100%;">
+                    <table class="table">
+                      <thead>
+                        <tr style="border: hidden;">
+                          <th scope="col" class="mainInfoTitles">Average Time to Resolve Issues<br>(Past Month)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td id="avgTimeResolveIssues" class="mainInfoText">
+                              <!-- Loading Spinner-->
+                              <div id="avgIssueResolveTimeSpinner" class="col-12">
+                                  <div class="text-center">
+                                      <div class="spinner-border text-primary" role="status">
+                                          <span class="sr-only">Loading...</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie Charts -->
+    <div class="infoContainers" style="border: hidden;">
+        <div class="row">
+          <!-- Issues Overall Chart -->
+            <div class="col-6" style="padding: 0px;">
+                <div class="mainInfo">
+                    <div id="issuesChartContainer" style="min-width: 99%;">
+                      <!-- Loading Spinner-->
+                      <div id="issuesChartSpinner" class="col-12" style="padding-top: 50px;">
+                        <div class="text-center">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                      </div>
+                      <canvas id="issuesChart" style="min-width: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Developer Contributions Chart-->
+            <div class="col-6" style="padding: 0px;">
+                <div class="mainInfo">
+                    <div id="contributionChartContainer" style="min-width: 95%;">
+                      <!-- Loading Spinner-->
+                      <div id="contributionChartSpinner" class="col-12" style="padding-top: 50px;">
+                        <div class="text-center">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                      </div>
+                      <canvas id="contributionChart" style="min-width: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Issues Completion Chart Per Developer-->
+            <div class="col-6" style="padding: 0px;">
+                <div class="mainInfo" style="margin-top: 8px;">
+                    <select name="developers" id="issuesCompletionDropDown" class="btn btn-primary"></select>
+                    <div id="issuesCompletionChartContainer">
+                      <!-- Loading Spinner-->
+                      <div id="issuesCompletionChartSpinner" class="col-12" style="padding-top: 50px;">
+                          <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                              <span class="sr-only">Loading...</span>
+                            </div>
+                          </div>
+                        </div>
+                        <canvas id="issuesCompletionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Contribution Types Chart -->
+            <div class="col-6" style="padding: 0px;">
+                <div class="mainInfo" style="margin-top: 8px;">
+                    <select name="developers" id="developerContributionTypesDropDown" class="btn btn-primary"></select>
+                    <h2 id="developerContributionHeader"></h2>
+                    <div id="developerContributionTypesContainer">
+                      <!-- Loading Spinner-->
+                        <div id="contributionTypesChartSpinner" class="col-12" style="padding-top: 50px;">
+                            <div class="text-center">
+                              <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                            </div>
+                          </div>
+                        <canvas id="developerContributionTypesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- List of main developers -->
+    <div class="infoContainers" style="padding:10px;">
+      <div class="row">
+        <div class="col-12">
+          <h4>Developer Contributions to Issues (Past Month):</h4>
+        </div>
+      </div>
+
+      <div id="mainDevelopers" class="row" style="text-align:center">
+        <!-- The initial spinner -->
+        <div id="spinner" class="col-12">
+          <div class="text-center" style="margin-bottom: 10px;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Commits Table Controls -->
+    <div class="infoContainers" id="commitsTableControls">
+      <form style="background-color: white;" action="/action_page.php">
+        <div style="margin-bottom: 10px; font-size: 105%; font-weight: 400;">Show Commits from <input id="startDateCommits" type="date" class="form-control" style="width: 180px; display: inline;"> till <input id="endDateCommits" type="date" class="form-control" style="width: 180px; display: inline;"></div>
+          
+        <button type="button" class="btn btn-primary" onclick="showCommits();" name="button">Load</button>
+        <button type="button" class="btn btn-secondary" onclick="previousPageCommits();" name="button"  id="previousPageButtonCommits">&lt;</button>
+        <button type="button" class="btn btn-secondary" onclick="nextPageCommits();" name="button" id="nextPageButtonCommits">&gt;</button>
+        <div style="display: inline; font-size: 120%; font-weight: 400; margin-left: 1vw;">How many Commits per page?</div>
+          
+        <label class="tableCheckbox">Show Table
+            <input type="checkbox" id="checkBox1" onclick="viewCommits()">
+            <span class="checkmark"></span>
+        </label>
+
+        <select class="form-control" id="commitsAmount" style="margin-top: 10px;">
+            <option>25</option>
+            <option>50</option>
+            <option>100</option>
+        </select>
+      </form>
+    </div>
+
+      <!-- Commits Table -->
+    <div id="commitsTable" class="infoContainers">
+        <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Author</th>
+          <th scope="col">Commit</th>
+        </tr>
+      </thead>
+      <tbody id="commitsTableData">
+        <tr>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <!-- Modal for displaying commit lines changed -->
+    <div class="modal" tabindex="-1" role="dialog" id="commitsModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="commitsModalTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="commitsModalBody">
+          </div>
+          <div class="modal-footer">
+            <button id="gitLink" type="button" class="btn btn-primary" onclick="">See on GitHub</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Issues Table Controls -->
+    <div class="infoContainers" id="issuesTableControls">
+      <form style="background-color: white;" action="/action_page.php">
+        <div style="margin-bottom: 8px; font-size: 105%; font-weight: 400;">Show Issues from <input id="startDateIssues" type="date" class="form-control" style="width: 180px; display: inline;"> till <input id="endDateIssues" type="date" class="form-control" style="width: 180px; display: inline;"></div>
+        <select class="form-control" id="issuesState" style="margin-top: 8px; margin-bottom: 8px;">
+            <option>Open Issues</option>
+            <option>Closed Issues</option>
+            <option>Claimed-Unclaimed Issues</option>
+        </select>
+        <button type="button" class="btn btn-primary" onclick="showIssues();" name="button">Load</button>
+        <button type="button" class="btn btn-secondary" onclick="previousPageIssues();" name="button"  id="previousPageButtonIssues">&lt;</button>
+        <button type="button" class="btn btn-secondary" onclick="nextPageIssues();" name="button" id="nextPageButtonIssues">&gt;</button>
+        <div style="display: inline; font-size: 120%; font-weight: 400; margin-left: 1vw;">How many Issues per page?</div>
+          <label class="tableCheckbox">Show Table
+              <input type="checkbox" id="checkBox2" onclick="viewIssues()">
+              <span class="checkmark"></span>
+          </label>
+          <select class="form-control" id="issuesAmount" style="margin-top: 8px;">
+            <option>25</option>
+            <option>50</option>
+            <option>100</option>
+        </select>
+      </form>
+    </div>
+
+    <!-- Issues Table -->
+    <div id="issuesTable" class="infoContainers">
+      <table class="table">
+    <thead>
+      <tr id="issueTableHeader">
+        <th scope="col">Opened</th>
+        <th scope="col">Closed</th>
+        <th scope="col">Issue</th>
+      </tr>
+    </thead>
+    <tbody id="issuesTableData">
+      <tr>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+      
+    <!-- Modal for displaying issues information -->
+    <div class="modal" tabindex="-1" role="dialog" id="issuesModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="issuesModalTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="issuesModalBody">
+        </div>
+        <div class="modal-footer">
+          <button id="issuesGitLink" type="button" class="btn btn-primary" onclick="">See on GitHub</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+      
+    <!-- Bottom Nav -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2ECC40;">
+    <a class="navbar-brand" href="#"><img src="images/logo_white.png" height="30" width="auto" class="d-inline-block align-top"></a>
+    <div class="collapse navbar-collapse align-items-end" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active ml-auto">
+          <button type="button" class="btn btn-outline-dark" data-href="index.html" onclick="window.location.href='index.html'">Home</button>
+        </li>
+      </ul>
+    </div></nav>
+    
+
+    <!-- Javascript Links -->
+    <script type="text/javascript" src="scripts/urlScript.js"></script>
+    <script type="text/javascript" src="scripts/repoStats.js"></script>
+    <script type="text/javascript" src="scripts/PagesDataStruct.js"></script>
+    <script type="text/javascript" src="scripts/PagedDataHandler.js"></script>
+    <script type="text/javascript" src="scripts/commitsUI.js"></script>
+    <script type="text/javascript" src="scripts/issuesUI.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script type="text/javascript" src="scripts/chartsUI.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  </body>
+</html>
